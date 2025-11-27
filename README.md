@@ -1,24 +1,25 @@
-Student Performance Indicator
+# Student Performance Indicator
 
 An End-to-End Machine Learning project that predicts student test scores based on various factors such as gender, ethnicity, parental level of education, lunch type, and test preparation course. This project implements a complete CI/CD pipeline using GitHub Actions, Docker, and AWS ECR.
 
-📂 Project Structure
+## 📂 Project Structure
 
+```text
 Student_Performance_Indicator/
-├── .github/workflows/ # CI/CD Pipeline (main.yml)
-├── src/ # Source code for the ML project
-│ ├── components/ # Data Ingestion, Transformation, Model Trainer
-│ ├── pipeline/ # Prediction and Training pipelines
-│ ├── logger.py # Logging configuration
-│ └── exception.py # Custom exception handling
-├── artifacts/ # Stores generated models and preprocessors
-├── templates/ # HTML templates for the Flask app
-├── application.py # Entry point for the Flask application
-├── Dockerfile # Docker configuration
-├── requirements.txt # Project dependencies
-└── setup.py # Package setup
+├── .github/workflows/       # CI/CD Pipeline (main.yml)
+├── src/                     # Source code for the ML project
+│   ├── components/          # Data Ingestion, Transformation, Model Trainer
+│   ├── pipeline/            # Prediction and Training pipelines
+│   ├── logger.py            # Logging configuration
+│   └── exception.py         # Custom exception handling
+├── artifacts/               # Stores generated models and preprocessors
+├── templates/               # HTML templates for the Flask app
+├── application.py           # Entry point for the Flask application
+├── Dockerfile               # Docker configuration
+├── requirements.txt         # Project dependencies
+└── setup.py                 # Package setup
 
-🚀 End to End Machine Learning Project Flow
+## 🚀 End to End Machine Learning Project Flow
 
 Data Ingestion: Reading data from the source.
 
@@ -156,3 +157,4 @@ docker build -t student-app .
 # Run the container
 
 docker run -p 5000:5000 student-app
+```
