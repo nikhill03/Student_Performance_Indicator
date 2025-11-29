@@ -1,160 +1,166 @@
 # Student Performance Indicator
 
-An End-to-End Machine Learning project that predicts student test scores based on various factors such as gender, ethnicity, parental level of education, lunch type, and test preparation course. This project implements a complete CI/CD pipeline using GitHub Actions, Docker, and AWS ECR.
+This is an End-to-End Machine Learning application that predicts student performance based on various influencing factors such as gender, ethnicity, parental education level, lunch type, and test preparation course.  
+The project includes a complete training pipeline, a Flask-based web application for real-time predictions, and a CI/CD deployment pipeline using GitHub Actions, Docker, AWS EC2, and AWS ECR.
 
-## 📂 Project Structure
+## Table of Contents
 
-```text
+- Project Overview
+- Application UI Preview
+- Project Structure
+- Getting Started
+- Local Execution
+- Deployment
+- Docker Setup in EC2
+- GitHub Actions and Secrets
+- Future Improvements
+- License
+
+## Project Overview
+
+Goal: Predict student test scores including Math, Reading, and Writing.
+
+Tech Stack:
+
+- Python
+- Flask
+- Scikit-learn
+- Pandas, NumPy
+- GitHub Actions, Docker, AWS EC2, AWS ECR
+
+Deployment: Fully containerized deployment using Docker and AWS.
+
+## Application UI Preview
+
+The following screenshot shows the input form used to predict a student's Math score based on selected attributes.
+
+![Student Exam Performance UI](assets/Student_performance_indicator.png)
+
+## Project Structure
+
+```
 Student_Performance_Indicator/
-├── .github/workflows/       # CI/CD Pipeline (main.yml)
-├── src/                     # Source code for the ML project
-│   ├── components/          # Data Ingestion, Transformation, Model Trainer
-│   ├── pipeline/            # Prediction and Training pipelines
-│   ├── logger.py            # Logging configuration
-│   └── exception.py         # Custom exception handling
-├── artifacts/               # Stores generated models and preprocessors
-├── templates/               # HTML templates for the Flask app
-├── application.py           # Entry point for the Flask application
-├── Dockerfile               # Docker configuration
-├── requirements.txt         # Project dependencies
-└── setup.py                 # Package setup
+├── artifacts/              # Stores trained model and preprocessor objects
+├── notebook/               # EDA and experimentation notebooks
+├── src/                    # Source code for the ML pipeline
+│   ├── components/         # Data ingestion, transformation, model trainer modules
+│   ├── pipeline/           # Training and prediction pipelines
+│   ├── logger.py           # Custom logging configuration
+│   └── exception.py        # Custom exception classes
+├── templates/              # HTML templates for the Flask app
+├── application.py          # Flask application entry point
+├── Dockerfile              # Docker container configuration
+├── requirements.txt        # Python dependencies
+└── .github/workflows/      # GitHub Actions CI/CD workflow files
+```
 
-## 🚀 End to End Machine Learning Project Flow
+## Getting Started
 
-Data Ingestion: Reading data from the source.
+### 1. Clone the Repository
 
-Data Transformation: Cleaning and preparing data for the model.
-
-Model Training: Training various models and selecting the best one.
-
-Prediction: Web interface for real-time predictions.
-
-Deployment: Dockerizing the app and pushing to AWS.
-
-🛠️ Deployment Checklist
-
-The following steps were taken to deploy this application:
-
-[x] Docker Build Checked: Verified the Dockerfile locally.
-
-[x] GitHub Workflow: Configured .github/workflows/main.yml.
-
-[x] IAM User in AWS: Created a user with AmazonEC2ContainerRegistryFullAccess and AmazonEC2FullAccess.
-
-☁️ AWS Deployment Setup
-
-This project uses GitHub Actions to build a Docker image and push it to Amazon Elastic Container Registry (ECR).
-
-1. Create ECR Repository
-
-Create a repository in AWS ECR to store your Docker images.
-
-aws ecr create-repository --repository-name student-performance --region eu-north-1
-
-2. Configure IAM User
-
-Create an IAM user on AWS with the following permissions policies attached:
-
-AmazonEC2ContainerRegistryFullAccess
-
-AmazonEC2FullAccess (If deploying to EC2)
-
-3. Setup GitHub Secrets
-
-Navigate to your GitHub Repository -> Settings -> Secrets and variables -> Actions -> New repository secret. Add the following:
-
-Secret Name
-
-Description
-
-Example Value
-
-AWS_ACCESS_KEY_ID
-
-Your IAM User Access Key
-
-AKIA...
-
-AWS_SECRET_ACCESS_KEY
-
-Your IAM User Secret Key
-
-wJalr...
-
-AWS_REGION
-
-Your AWS Region
-
-eu-north-1
-
-ECR_REPOSITORY_NAME
-
-Name of your repo created in Step 1
-
-student-performance
-
-🖥️ Docker Setup in EC2 (Self-Hosted Runner)
-
-If you wish to pull the image and run it on an EC2 instance, execute the following commands on your Ubuntu server:
-
-System Update
-
-# optional
-
-sudo apt-get update -y
-sudo apt-get upgrade
-
-Docker Installation (Required)
-
-# Download the Docker installation script
-
-curl -fsSL [https://get.docker.com](https://get.docker.com) -o get-docker.sh
-
-# Run the installation script
-
-sudo sh get-docker.sh
-
-# Add the current user to the docker group
-
-sudo usermod -aG docker ubuntu
-
-# Refresh the group membership
-
-newgrp docker
-
-🏃 running locally
-
-To run this project on your local machine:
-
-Clone the repository
-
-git clone [https://github.com/nikhill03/Student_Performance_Indicator.git](https://github.com/nikhill03/Student_Performance_Indicator.git)
+```sh
+git clone https://github.com/nikhill03/Student_Performance_Indicator
 cd Student_Performance_Indicator
+```
 
-Create a Virtual Environment
+### 2. Create a Virtual Environment
 
-python -m venv .venv
-source .venv/bin/activate # On Windows use: .venv\Scripts\activate
+Using Conda:
 
-Install Dependencies
+```sh
+conda create -p venv python=3.8 -y
+conda activate venv/
+```
 
+### 3. Install Dependencies
+
+```sh
 pip install -r requirements.txt
+```
 
-Run the Application
+### 4. Run the Application
 
+```sh
 python application.py
+```
 
-Access the app at http://127.0.0.1:5000
+Open the browser:
 
-🐳 Docker Local Run
+```
+http://127.0.0.1:5000/
+```
 
-To build and run the container locally without AWS:
+## Local Docker Run
 
-# Build the image
+Build the Docker image:
 
+```sh
 docker build -t student-app .
+```
 
-# Run the container
+Run the container:
 
+```sh
 docker run -p 5000:5000 student-app
 ```
+
+Access locally:
+
+```
+http://127.0.0.1:5000/
+```
+
+## Deployment
+
+This project includes a GitHub Actions workflow for automated CI/CD, automatically building and pushing a Docker image to AWS ECR and running it in EC2.
+
+Deployment Checklist:
+
+- [x] Dockerfile validated
+- [x] GitHub workflow configured
+- [x] IAM user created for ECR and EC2 access
+
+## Docker Setup in EC2
+
+Connect to EC2 instance and run:
+
+### Optional: Update system
+
+```sh
+sudo apt-get update -y
+sudo apt-get upgrade -y
+```
+
+### Required: Install Docker
+
+```sh
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo usermod -aG docker ubuntu
+newgrp docker
+```
+
+### Configure EC2 as Self-Hosted Runner
+
+GitHub Repository → Settings → Actions → Runners → New self-hosted runner  
+Choose Linux → run given commands on EC2 instance.
+
+## GitHub Actions and Secrets Setup
+
+Add repository secrets:
+GitHub → Settings → Secrets and variables → Actions → New repository secret
+
+| Secret Name           | Description                          | Example                                  |
+| --------------------- | ------------------------------------ | ---------------------------------------- |
+| AWS_ACCESS_KEY_ID     | IAM Access Key                       | AKIAXXXXXXXXXXXXX                        |
+| AWS_SECRET_ACCESS_KEY | IAM Secret Key                       | abc123examplekey                         |
+| AWS_REGION            | AWS region configured for deployment | us-east-1                                |
+| AWS_ECR_LOGIN_URI     | AWS ECR login URI                    | example.dkr.ecr.ap-south-1.amazonaws.com |
+| ECR_REPOSITORY_NAME   | ECR repository name                  | student-performance                      |
+
+## Future Improvements
+
+- Model performance monitoring
+- Retraining automation
+- Centralized database for predictions
+- Enhanced UI design
